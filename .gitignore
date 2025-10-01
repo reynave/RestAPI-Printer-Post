@@ -1,0 +1,20 @@
+# Composer dependencies
+/vendor/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# PHPStorm / VSCode / IDE
+.idea/
+.vscode/
+
+# Log files
+*.log
+
+# Environment files
+.env
+
+# Cache
+/cache/
