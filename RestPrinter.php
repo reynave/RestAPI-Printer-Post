@@ -1,4 +1,12 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 require __DIR__ . '/vendor/autoload.php';
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
@@ -7,7 +15,7 @@ use Mike42\Escpos\CapabilityProfile;
 header('Content-Type: application/json');
 
 $data = json_decode(file_get_contents('php://input'), true);
-$text = isset($data['text']) ? $data['text'] : 'Default Text';
+$text = isset($data['message']) ? $data['message'] : 'Default Text';
 $printerName = isset($data['printer']) ? $data['printer'] : 'TP805L';
 
 $profile = CapabilityProfile::load("simple");
