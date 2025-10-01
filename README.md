@@ -21,43 +21,14 @@
 - Pastikan file `vendor/autoload.php` sudah ada di folder project.
 - **Catatan:** Jika hanya download zip tanpa Composer, library tidak akan terinstall dan script tidak bisa dijalankan.
 
-## 4. Siapkan File RestPrinter.php
-- Buat file `RestPrinter.php` di folder web server (misal: `htdocs/app/printing/RestPrinter.php`).
-- Contoh isi:
-  ```php
-  <?php
-  require __DIR__ . '/vendor/autoload.php';
-  use Mike42\Escpos\Printer;
-  use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
-  use Mike42\Escpos\CapabilityProfile;
-
-  header('Content-Type: application/json');
-  $data = json_decode(file_get_contents('php://input'), true);
-  $text = isset($data['text']) ? $data['text'] : 'Default Text';
-
-  $printer = "TP805L"; // Ganti sesuai nama share printer
-  $profile = CapabilityProfile::load("simple");
-  $connector = new WindowsPrintConnector($printer);
-  $printer = new Printer($connector, $profile);
-
-  $printer->text($text . "\n");
-  $printer->cut();
-  $printer->close();
-
-  echo json_encode(['status' => 'ok']);
-  ```
+## 4. test File print.php jika perlu
+- $printer = "TP805L"; // Ganti dengan nama printer yang sesuai
 - Pastikan nama printer (`$printer`) sesuai dengan nama share printer di Windows.
 
 ## 5. Jalankan RestPrinter.php via REST API POST
-- Pastikan web server (Apache/Nginx) sudah berjalan.
-- Akses endpoint, misal: `http://localhost/app/printing/RestPrinter.php`
+- Pastikan web server (XAMPP) sudah berjalan.
+- Akses endpoint, misal: `http://localhost/RestPrinter.php`
 - Kirim data via HTTP POST dari aplikasi lain (Node.js, Angular, Postman, dsb).
-
-### Contoh Request dari Node.js:
-```javascript
-const axios = require('axios');
-axios.post('http://localhost/app/printing/RestPrinter.php', { text: 'Teks yang akan dicetak' });
-```
 
 ### Contoh Request dari Angular:
 ```typescript
